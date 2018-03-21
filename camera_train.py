@@ -2,7 +2,7 @@ import cv2
 import os
 
 
-folder="pranoy"
+folder="sobhana"
 
 
 camera_port = 0

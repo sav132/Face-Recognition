@@ -34,7 +34,11 @@ def encoding(img):
 
     img = align_image(img)
     # scale RGB values to interval [0,1]
+
+    cv2.imwrite("a.jpg",img)
     img = (img / 255.).astype(np.float32)
+
+
     # obtain embedding vector for image
     embedded = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
     return embedded
@@ -52,11 +56,14 @@ def show_pair(enc1, enc2):
 while True:
   try:
     retval, image = camera.read()
+    cv2.imshow("face", image)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
     #image=cv2.imread("rejah14.jpg")
     encoded_image=encoding(image)
     for (name,db_enc) in database.items():
         result=show_pair(db_enc,encoded_image)
-        if(result<0.5):
+        if(result<0.2):
            print(result)
            print(name)
            break
