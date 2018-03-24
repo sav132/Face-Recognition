@@ -55,19 +55,26 @@ def show_pair(enc1, enc2):
 
 while True:
   try:
+    user="unknown"
     retval, image = camera.read()
-    cv2.imshow("face", image)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
     #image=cv2.imread("rejah14.jpg")
     encoded_image=encoding(image)
     for (name,db_enc) in database.items():
         result=show_pair(db_enc,encoded_image)
         if(result<0.2):
-           print(result)
-           print(name)
+           user=name
+           print(user)
            break
 
+    bb = alignment.getLargestFaceBoundingBox(image)
+    if (bb is not None):
+        cv2.rectangle(image, (bb.left(), bb.top()), (bb.right(), bb.bottom()), (0, 255, 0), 1)
+        cv2.putText(image, user + " : " + str(result) + "%", (bb.left(), bb.top() - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0))
+    cv2.imshow("window", image)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
   except:
-      print("1")
+      print("No face Found")
 
