@@ -51,7 +51,7 @@ alignment = AlignDlib('models/landmarks.dat')
 nn4_small2_pretrained = create_model()
 nn4_small2_pretrained.load_weights('weights/nn4.small2.v1.h5')
 
-result = 0.3
+result = 0
 predict_name = "Unknown"
 
 while True:
