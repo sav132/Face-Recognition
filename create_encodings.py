@@ -23,13 +23,14 @@ def align_image(img):
                            landmarkIndices=AlignDlib.OUTER_EYES_AND_NOSE)
 
 
-database = {}
+database = []
 for i, m in enumerate(metadata):
     img = load_image(m.image_path())
     img = align_image(img)
     # scale RGB values to interval [0,1]
     img = (img / 255.).astype(np.float32)
     # obtain embedding vector for image
-    database.update({m.image_path().split("/")[1]:nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]})
+    database.append((m.image_path().split("/")[1],nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]))
 
 dump(database, open("database.pkl","wb"))
+

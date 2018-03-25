@@ -31,7 +31,7 @@ def distance(emb1, emb2):
 def dbEncodings_to_Vect(database):
     db_vect = []
     names = []
-    for (name,db_enc) in database.items():
+    for (name,db_enc) in database:
         names.append(name)
         db_vect.append(db_enc)
     db_vect = np.array(db_vect).T       # db_vect.shape = (128, len(db))
@@ -95,7 +95,7 @@ while True:
     bb = alignment.getLargestFaceBoundingBox(temp_image)
     if (bb is not None):
         cv2.rectangle(temp_image, (bb.left(), bb.top()), (bb.right(), bb.bottom()), (0, 255, 0), 1)
-        cv2.putText(temp_image, predict_name + " : " + str(result) + "%", (bb.left(), bb.top() - 10),
+        cv2.putText(temp_image, predict_name + " : " + "Score "+str(result) , (bb.left(), bb.top() - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0))
 
     cv2.imshow("Window", temp_image)
