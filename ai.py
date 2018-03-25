@@ -51,8 +51,7 @@ alignment = AlignDlib('models/landmarks.dat')
 nn4_small2_pretrained = create_model()
 nn4_small2_pretrained.load_weights('weights/nn4.small2.v1.h5')
 
-result = 0
-predict_name = "Unknown"
+
 
 while True:
 
@@ -62,14 +61,6 @@ while True:
     #Drawing bounding box
     temp_image = image
 
-    bb = alignment.getLargestFaceBoundingBox(temp_image)
-    if (bb is not None):
-        cv2.rectangle(temp_image, (bb.left(), bb.top()) ,(bb.right(), bb.bottom()), (0,255,0),1)
-        cv2.putText(temp_image, predict_name+" : "+str(result)+"%", (bb.left(),bb.top()-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0))
-
-    cv2.imshow("Window", temp_image)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
 
     try :
 
@@ -100,6 +91,16 @@ while True:
 
     except:
         print ("Face not detected !")
+
+    bb = alignment.getLargestFaceBoundingBox(temp_image)
+    if (bb is not None):
+        cv2.rectangle(temp_image, (bb.left(), bb.top()), (bb.right(), bb.bottom()), (0, 255, 0), 1)
+        cv2.putText(temp_image, predict_name + " : " + str(result) + "%", (bb.left(), bb.top() - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0))
+
+    cv2.imshow("Window", temp_image)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
 camera.release()
 cv2.destroyAllWindows()
